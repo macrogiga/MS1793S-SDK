@@ -29,8 +29,8 @@ PWM(6)/ADC(7):
 ****Sample applications****
 
 1====UART数据透传应用==============
-TX:GPA6 
-RX:GPA7
+TX:GPB6 
+RX:GPB7
 模拟流控，用于STOP mode
     RTS:PA13
     CTS:PA14
