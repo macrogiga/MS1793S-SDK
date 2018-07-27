@@ -20,7 +20,7 @@ int main(void)
     
     BSP_Init();
     
-    //Write_Iwdg_ON(IWDG_Prescaler_256, 1000); //6.4s, fff-26.208s max
+    Write_Iwdg_ON(IWDG_Prescaler_256, 1000); //6.4s, fff-26.208s max
 
     SetBleIntRunningMode();
     radio_initBle(TXPWR_0DBM, &ble_mac_addr);
@@ -28,7 +28,7 @@ int main(void)
     SysTick_Count = 0;
     while(SysTick_Count < 5){}; //delay at least 5ms between radio_initBle() and ble_run...
 
-#ifdef USE_UART
+#if 0 //print Mac
     printf("\r\nMAC:%02x-%02x-%02x-%02x-%02x-%02x", ble_mac_addr[5],ble_mac_addr[4],ble_mac_addr[3],ble_mac_addr[2],ble_mac_addr[1],ble_mac_addr[0]);
 #endif
 
