@@ -37,3 +37,12 @@ RX:GPB7
 
 
 
+2====i2c_master/slave=====
+i2cmaster + OLED
+  PB6 i2c_scl
+  PB7 i2c_sda
+
+i2cslave
+  PB6 i2c_scl
+  PB7 i2c_sda
+  PA13 i2c send flag

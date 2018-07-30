@@ -1,19 +1,17 @@
 #include "BSP.h"
 #include "mg_api.h"
-
+#include "oled.h"
 
 
 
 
 extern volatile unsigned int SysTick_Count;
-extern unsigned int RxTimeout;
-extern unsigned int TxTimeout;
 
-unsigned char SleepStop = 1; //01-sleep, 02-stop
+unsigned char SleepStop = 0x02; //01-sleep, 02-stop
 unsigned char SleepStatus = 0;
 
 /********************************************************************************************************
-**函数信息 ：SystemClk_HSIInit (void)                        
+**函数信息 ：SystemClk_HSIInit (void)
 **功能描述 ：系统时钟初始化函数，初始化之前先复位所有时钟
 **输入参数 ：无
 **输出参数 ：无
@@ -102,25 +100,21 @@ void BSP_Init(void)
     NVIC_Init(&NVIC_InitStructure);
     NVIC_SetPriority (EXTI4_15_IRQn, (1<<__NVIC_PRIO_BITS) - 1);
     
-#ifdef USE_UART
-    UartInit(UART1, 115200);
-    NVIC_SetPriority (UART1_IRQn, (1<<__NVIC_PRIO_BITS) - 2);
-    
+#ifdef I2CMASTER
+    I2CInitMasterMode(I2C1,400000,0x78);
+    OLED_Init();
+    OLED_DispStr(6, 7, "MS1793S EVB v1.0.0");
+#else  //I2CSLAVE
+    I2CInitSlaveMode(I2C1,0xaa);
+    NVIC_SetPriority (I2C1_IRQn, (1<<__NVIC_PRIO_BITS) - 2);
+
+    //IIC SendDataFlag
     GPIO_PinAFConfig(GPIOA,GPIO_PinSource13,GPIO_AF_5);
-    GPIO_PinAFConfig(GPIOA,GPIO_PinSource14,GPIO_AF_5);
-    //RTS
-    GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_13;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    //CTS
-    GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_14;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    GPIO_ResetBits(GPIOA, GPIO_Pin_13);
+    GPIO_SetBits(GPIOA, GPIO_Pin_13);
 #endif
 }
 
@@ -128,45 +122,13 @@ void BSP_Init(void)
 /////////////////////Following functions are porting functions/////////////////////////////////
 void McuGotoSleepAndWakeup(void) // auto goto sleep AND wakeup, porting api
 {
-#ifdef USE_UART
-    if ((SleepStop)&&
-        (TxTimeout < SysTick_Count)&&
-        (RxTimeout < SysTick_Count))
-    {
-        if(SleepStop == 1){//sleep
-            SCB->SCR &= 0xfb;
-            __WFE();
-        }else{ //stop
-            SCB->SCR |= 0x4;
-            __WFI();
-            
-            RCC->CFGR |= (uint32_t)RCC_CFGR_SW_PLL;
-            GPIO_ResetBits(GPIOA, GPIO_Pin_13);
-        }
-    }
-#endif
 }
-void IrqMcuGotoSleepAndWakeup(void) // auto goto sleep AND wakeup, porting api
+
+void IrqMcuGotoSleepAndWakeup(void)
 {
     if(ble_run_interrupt_McuCanSleep() == 0) return;
+    ///if(SleepStatus) return;
 
-#ifdef USE_UART
-    if ((SleepStop)&&
-        (TxTimeout < SysTick_Count)&&
-        (RxTimeout < SysTick_Count))
-    {
-        if(SleepStop == 1){//sleep
-            SleepStatus = 1;
-            SCB->SCR &= 0xFB;
-            __WFE();
-        }else{ //stop
-            SleepStatus = 2;
-            SCB->SCR |= 0x4;
-            __WFI();
-            GPIO_ResetBits(GPIOA, GPIO_Pin_13);
-        }
-    }
-#endif
 }
 
 //////DO NOT REMOVE, used in ble lib///////
@@ -177,16 +139,28 @@ void SysClk48to8(void)
 {
 }
 
+//static char dis_int_count = 0;
 void DisableEnvINT(void)
 {
+//    //to disable int
+//    __ASM volatile("cpsid i");
+//    
+//    dis_int_count ++;
 }
 
 void EnableEnvINT(void)
 {
+//    //to enable/recover int
+//    dis_int_count --;    
+//    if(dis_int_count<=0) //protection purpose
+//    {
+//        dis_int_count = 0; //reset
+//        __ASM volatile("cpsie i");
+//    }
 }
 
 //api provide in blelib
-//    EnableLED_Flag; Led_R; Led_G; Led_B; Led_Y; Led_W; Led_Lum_percent; 
+//    EnableLED_Flag; Led_R; Led_G; Led_B; Led_Y; Led_W; Led_Lum_percent;
 void UpdateLEDValueAll(void) //porting function
 {
 }
