@@ -22,5 +22,6 @@ void ReadDHT(void);
 void OLED_Init(void);
 void OLED_Clear(void);
 void OLED_DispStr(unsigned char x, unsigned char y, char *ch);
+void OLED_DispLogo(void);
 
 #endif

@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v3.3.6*/
+/*lib release: v4.0.0*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -129,6 +129,13 @@ void ble_set_interval(unsigned short interval);
 //Parameters: sEnableFlag - 0 to disable adv, 1 to enable adv
 //return: None
 void ble_set_adv_enableFlag(char sEnableFlag);
+
+//Function: ble_set_role
+//this function is to set ble role to peripheral(0) or central(1), by default ble role is peripheral(0)
+//Parameters: role_new - 0 peripheral, 1 central
+//            scan_window - scan window for central rol. range: 0x0004~0x4000 (2.5ms ~ 10.24s)
+//return: 0 - fail, 1 - success
+unsigned char ble_set_role(unsigned char role_new, unsigned short scan_window);
 
 //Function: ble_disconnect
 //this function is to disconnected the ble connection
@@ -269,6 +276,7 @@ void SetFixAdvChannel(unsigned char isFixCh37Flag);
 //void ConnectStausUpdate(unsigned char IsConnectedFlag);
 //unsigned char* getDeviceInfoData(unsigned char* len);
 //void UsrProcCallback(void);
+//void UsrProcCallback_Central(unsigned char fin, unsigned char* dat_rcv, unsigned char dat_len);
 
 //unsigned char aes_encrypt_HW(unsigned char *painText128bitBE,unsigned char *key128bitBE); //porting api, returns zero means not supported
 

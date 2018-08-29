@@ -102,8 +102,8 @@ void BSP_Init(void)
     
 #ifdef I2CMASTER
     I2CInitMasterMode(I2C1,400000,0x78);
-    OLED_Init();
-    OLED_DispStr(6, 7, "MS1793S EVB v1.0.0");
+//    OLED_Init();
+//    OLED_DispStr(6, 7, "MS1793S EVB v1.0.0");
 #else  //I2CSLAVE
     I2CInitSlaveMode(I2C1,0xaa);
     NVIC_SetPriority (I2C1_IRQn, (1<<__NVIC_PRIO_BITS) - 2);

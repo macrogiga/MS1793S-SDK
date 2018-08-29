@@ -27,6 +27,7 @@
 #include "HAL_conf.h"
 #include "mg_api.h"
 #include "bsp.h"
+#include "oled.h"
 
 
 /// Characteristic Properties Bit
@@ -342,6 +343,10 @@ void ConnectStausUpdate(unsigned char IsConnectedFlag) //porting api
 #ifdef I2CMASTER
     if (IsConnectedFlag)
         DispUpdate = 0xff;
+    else{
+        OLED_Init();
+        OLED_DispLogo();
+    }   
 #endif
 }
 
@@ -377,6 +382,10 @@ void UsrProcCallback(void) //porting api
     IWDG_ReloadCounter();
     
     CheckComPortInData();
+}
+
+void UsrProcCallback_Central(u8 fin, u8* dat_rcv, u8 dat_len)
+{
 }
 
 #ifdef I2CSLAVE

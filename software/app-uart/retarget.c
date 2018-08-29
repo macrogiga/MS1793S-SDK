@@ -518,3 +518,7 @@ void UsrProcCallback(void) //porting api
     }
 #endif
 }
+
+void UsrProcCallback_Central(u8 fin, u8* dat_rcv, u8 dat_len)
+{
+}
