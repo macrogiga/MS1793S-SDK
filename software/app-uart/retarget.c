@@ -116,7 +116,7 @@ extern void updateDeviceInfoData(u8* name, u8 len);
 
 //AT+SETNAME=abcdefg
 void atcmd_SetName(u8* parameter,u8 len)
-{   
+{
     if(len <= 8){
         moduleOutData((u8*)"IND:ERR\n",8);
         return;
@@ -488,7 +488,10 @@ void UsrProcCallback(void) //porting api
 #else //AT CMD not supported
     CheckComPortInData();
 #endif
+
+#ifndef SWDDEBUG
     if ((2 != SleepStop)||(!(GPIO_ReadInputData(GPIOA) & 0x4000)))
+#endif
     {
         if ((txLen) && (0 == PosW))
         {
@@ -500,7 +503,9 @@ void UsrProcCallback(void) //porting api
     }
     if ((SleepStop == 2)&&(RxTimeout < SysTick_Count))
     {
+#ifndef SWDDEBUG
         GPIO_SetBits(GPIOA, GPIO_Pin_13);
+#endif
         RxTimeout = SysTick_Count + (20000/BaudRate);
     }
     

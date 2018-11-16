@@ -106,6 +106,7 @@ void BSP_Init(void)
     UartInit(UART1, 115200);
     NVIC_SetPriority (UART1_IRQn, (1<<__NVIC_PRIO_BITS) - 2);
     
+#ifndef SWDDEBUG
     GPIO_PinAFConfig(GPIOA,GPIO_PinSource13,GPIO_AF_5);
     GPIO_PinAFConfig(GPIOA,GPIO_PinSource14,GPIO_AF_5);
     //RTS
@@ -121,6 +122,7 @@ void BSP_Init(void)
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
     GPIO_ResetBits(GPIOA, GPIO_Pin_13);
+#endif
 #endif
 }
 
@@ -141,7 +143,9 @@ void McuGotoSleepAndWakeup(void) // auto goto sleep AND wakeup, porting api
             __WFI();
             
             RCC->CFGR |= (uint32_t)RCC_CFGR_SW_PLL;
+#ifndef SWDDEBUG
             GPIO_ResetBits(GPIOA, GPIO_Pin_13);
+#endif
         }
     }
 #endif
@@ -163,7 +167,9 @@ void IrqMcuGotoSleepAndWakeup(void) // auto goto sleep AND wakeup, porting api
             SleepStatus = 2;
             SCB->SCR |= 0x4;
             __WFI();
+#ifndef SWDDEBUG
             GPIO_ResetBits(GPIOA, GPIO_Pin_13);
+#endif
         }
     }
 #endif

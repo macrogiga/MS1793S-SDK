@@ -5,6 +5,14 @@
 #include "mg_api.h"
 
 
+/*
+PB6 - UART_TX
+PB7 - UART_RX
+PA13 - UART_RTS
+PA14 - UART_CTS
+*/
+/************If debug, please add macro SWDDEBUG to disable PA13/14 MUX
+in menu Project->Options for Target...->C/C++->Processor Symbol->define**********/
 
 extern volatile unsigned int SysTick_Count;
 
@@ -19,9 +27,11 @@ int main(void)
     while(temp--);//wait a while for hex programming if using the MCU stop mode, default NOT used.
     
     BSP_Init();
-    
-    Write_Iwdg_ON(IWDG_Prescaler_256, 1000); //6.4s, fff-26.208s max
 
+#ifndef SWDDEBUG
+    Write_Iwdg_ON(IWDG_Prescaler_256, 1000); //6.4s, fff-26.208s max
+#endif
+    
     SetBleIntRunningMode();
     radio_initBle(TXPWR_0DBM, &ble_mac_addr);
     
