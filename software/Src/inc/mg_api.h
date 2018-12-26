@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.0.0*/
+/*lib release: v4.0.2*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -61,6 +61,11 @@
 //Parameters: txpwr - input, txpower;   addr - output, BLE device address
 //return: None
 void radio_initBle(unsigned char txpwr, unsigned char** addr/*out*/);  //init ble mode, should be called first after spi initialization
+
+//Function: radio_initBle_TO
+//Parameters: txpwr - input, txpower;   addr - output, BLE device address;   ms_timeout - timeout for BLE initialization, recommend value 10~50
+//return: 0 - fail;  none 0 - success
+unsigned char radio_initBle_TO(unsigned char txpwr, unsigned char** addr, unsigned short ms_timeout);
 
 //Function: radio_standby
 //this function is to set rf to standby mode, I ~ 3uA

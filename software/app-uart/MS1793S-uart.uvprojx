@@ -544,9 +544,9 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>mg_BLE_lib_m0.lib</FileName>
+              <FileName>mg_BLE_libv4_m0.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\Src\lib\mg_BLE_lib_m0.lib</FilePath>
+              <FilePath>..\Src\lib\mg_BLE_libv4_m0.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -1100,9 +1100,9 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>mg_BLE_lib_m0.lib</FileName>
+              <FileName>mg_BLE_libv4_m0.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\Src\lib\mg_BLE_lib_m0.lib</FilePath>
+              <FilePath>..\Src\lib\mg_BLE_libv4_m0.lib</FilePath>
             </File>
           </Files>
         </Group>

@@ -47,7 +47,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\obj\</OutputDirectory>
-          <OutputName>MS1793-UART</OutputName>
+          <OutputName>MS1793S-I2CM</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -549,9 +549,9 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>mg_BLE_lib_m0.lib</FileName>
+              <FileName>mg_BLE_libv4_m0.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\Src\lib\mg_BLE_lib_m0.lib</FilePath>
+              <FilePath>..\Src\lib\mg_BLE_libv4_m0.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -608,7 +608,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\obj\</OutputDirectory>
-          <OutputName>MS1793-UART</OutputName>
+          <OutputName>MS1793S-I2CS</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -708,7 +708,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -722,7 +722,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>Segger\JL2CM3.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -1110,9 +1110,9 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>mg_BLE_lib_m0.lib</FileName>
+              <FileName>mg_BLE_libv4_m0.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\Src\lib\mg_BLE_lib_m0.lib</FilePath>
+              <FilePath>..\Src\lib\mg_BLE_libv4_m0.lib</FilePath>
             </File>
           </Files>
         </Group>

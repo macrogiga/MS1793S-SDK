@@ -46,3 +46,18 @@ i2cslave
   PB6 i2c_scl
   PB7 i2c_sda
   PA13 i2c send flag
+
+
+
+3======LowPower=======
+2分钟无连接进入低功耗状态（5uA）
+PA0 按键唤醒
+
+
+
+4====== PWM =========
+GPA6   LED-R
+GPA7   LED-G
+GPB0   LED-B
+GPA1   LED-Y
+GPA4   LED-W
