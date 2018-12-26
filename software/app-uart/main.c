@@ -35,8 +35,6 @@ int main(void)
     SetBleIntRunningMode();
     radio_initBle(TXPWR_0DBM, &ble_mac_addr);
     
-    SysTick_Count = 0;
-    while(SysTick_Count < 5){}; //delay at least 5ms between radio_initBle() and ble_run...
 
 #if 0 //print Mac
     printf("\r\nMAC:%02x-%02x-%02x-%02x-%02x-%02x", ble_mac_addr[5],ble_mac_addr[4],ble_mac_addr[3],ble_mac_addr[2],ble_mac_addr[1],ble_mac_addr[0]);

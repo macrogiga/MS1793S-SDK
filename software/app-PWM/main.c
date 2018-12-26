@@ -11,7 +11,7 @@ extern volatile unsigned int SysTick_Count;
 unsigned char *ble_mac_addr;
 
 
-unsigned char pld_adv[] = {2,1,6, 13,0x09,'M','G','B','D','1','7','2','5','A','8','9','F', 9,0xff,0x11,0x02,0x01,0x08,0x9F,0xA8,0x25,0x17};//max 31 Byte
+unsigned char pld_adv[] = {2,1,6, 3,3,0x90,0xfe, 9,0xFF,0x11,0x02,0x9c,0x05,0x93,0xF5,0x40,0xE1};//max 31 Byte
 
 int main(void)
 {
@@ -25,11 +25,9 @@ int main(void)
 
     SetBleIntRunningMode();
     radio_initBle(TXPWR_0DBM, &ble_mac_addr);
-    //pld_adv[9]
+    
     ble_set_adv_data(pld_adv, sizeof(pld_adv)); 
-    //ble_set_adv_type(2);
-    SysTick_Count = 0;
-    while(SysTick_Count < 5){}; //delay at least 5ms between radio_initBle() and ble_run...
+    
     
     ble_run_interrupt_start(160); //160*0.625=100 ms
     

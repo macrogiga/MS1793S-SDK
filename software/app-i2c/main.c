@@ -28,8 +28,6 @@ int main(void)
     SetBleIntRunningMode();
     radio_initBle(TXPWR_0DBM, &ble_mac_addr);
     
-    SysTick_Count = 0;
-    while(SysTick_Count < 5){}; //delay at least 5ms between radio_initBle() and ble_run...
     
     ble_run_interrupt_start(160*2); //320*0.625=200 ms
     
