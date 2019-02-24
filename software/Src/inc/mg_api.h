@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.1.1*/
+/*lib release: v4.1.2*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -70,7 +70,7 @@ unsigned char radio_initBle_TO(unsigned char txpwr, unsigned char** addr, unsign
 //Function: radio_setCal_nonBlocking
 //Parameters: nonblocking - 0: blocking;  1: non blocking
 //return: none
-void radio_setCal_nonBlocking(unsigned nonblocking); 
+void radio_setCal_nonBlocking(unsigned nonblocking);
 
 //Function: radio_standby
 //this function is to set rf to standby mode, I ~ 3uA
@@ -249,8 +249,16 @@ unsigned char ble_run_interrupt_McuCanSleep(void);
 
 ///////////////////////////test/debug APIs/////////////////////////////////
 //Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
-//return: None
+//return: None. in testing, add while(1); after calling this function
 void test_carrier(unsigned char freq, unsigned char txpwr);
+
+//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz. Default txpwr=0dBm
+//return: None. in testing, add while(1); after calling this function
+void test_SRRCCarrier(unsigned char  freq);
+
+//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz. Default txpwr=0dBm
+//return: None. in testing, add while(1); after calling this function
+void test_SRRCSpurious(unsigned char  freq);
 
 void SetFixAdvChannel(unsigned char isFixCh37Flag);
 
@@ -295,17 +303,7 @@ void SetFixAdvChannel(unsigned char isFixCh37Flag);
 //void McuGotoSleepAndWakeup(void);
 
 
-////////////////////////For OTA application use//////////////////////////
-//void OtaSystemReboot(void);
-//void WriteFlashE2PROM(u8* data, u16 len, u32 pos, u8 flag); //4 bytes aligned
-//u32 GetOtaAddr(void);
 
-
-////////////////////////For PA application use///////////////////////////
-//void PA_SetTxEnable(void);  //IO control to enable PA TX
-//void PA_SetRxEnable(void);  //IO control to enable PA RX
-//void PA_DisableTxRx(void);  //IO control to disable PA TX/RX
-//void PA_Delay10us(void);    //10 us delay implementation
 
 
 #endif
