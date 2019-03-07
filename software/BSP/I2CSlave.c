@@ -49,7 +49,7 @@ void I2CInitSlaveMode(I2C_TypeDef *I2Cx,unsigned char TarAddress)
     I2Cx->IC_SS_SCL_LCNT = 0x55;
     I2Cx->IC_RX_TL=0x0;//set Rx FIFO threshold level 
     I2Cx->IC_TX_TL=0x0;//set Tx FIFO threschold level 
-    I2Cx->IC_INTR_MASK=0X24;//disable all inttrupt
+    I2Cx->IC_INTR_MASK=0X0224;//disable all inttrupt
     I2Cx->IC_ENABLE=0x1;
 
     //I2C NVIC

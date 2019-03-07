@@ -53,12 +53,13 @@ char DeviceInfo[12] =  "MS1793S-I2C";  /*max len is 24 bytes*/
 
 u16 cur_notifyhandle = 0x12;  //Note: make sure each notify handle by invoking function: set_notifyhandle(hd);
 
-#define MAX_SIZE 200
-u8 txBuf[MAX_SIZE],rxBuf[MAX_SIZE];
+#define FIFOLEN     5
+#define MAX_SIZE    20
+u8 txBuf[MAX_SIZE],rxBuf[FIFOLEN][MAX_SIZE];
 u8 TxLen = 0;
-u8 RxCnt = 0;
+u8 RxCnt[FIFOLEN];
 u8 PosW = 0;
-static u8 PowR = 0;
+//static u8 PowR = 0;
 
 u8* getDeviceInfoData(u8* len)
 {
@@ -96,7 +97,7 @@ typedef struct ble_character16{
     u8  uuid128_idx;     //0xff means uuid16,other is idx of uuid128
 }BLE_CHAR;
 
-typedef struct ble_UUID128{    
+typedef struct ble_UUID128{
     u8  uuid128[16];//uuid128 string: little endian
 }BLE_UUID128;
 
@@ -116,7 +117,7 @@ const BLE_CHAR AttCharList[] = {
     {TYPE_CHAR,0x0011, {ATT_CHAR_PROP_NTF,                     0x12,0, 0,0}, 1/*uuid128-idx1*/ },//RxNotify
     {TYPE_CFG, 0x0013, {ATT_CHAR_PROP_RD|ATT_CHAR_PROP_W}},//cfg    
     {TYPE_CHAR,0x0014, {ATT_CHAR_PROP_W|ATT_CHAR_PROP_W_NORSP, 0x15,0, 0,0}, 2/*uuid128-idx2*/ },//Tx    
-	{TYPE_CHAR,0x0017, {ATT_CHAR_PROP_W|ATT_CHAR_PROP_RD,      0x18,0, 0,0}, 3/*uuid128-idx3*/ },//BaudRate
+    {TYPE_CHAR,0x0017, {ATT_CHAR_PROP_W|ATT_CHAR_PROP_RD,      0x18,0, 0,0}, 3/*uuid128-idx3*/ },//BaudRate
     {TYPE_INFO,0x0019, {ATT_CHAR_PROP_RD}}//description,"BaudRate"
 };
 
@@ -257,7 +258,7 @@ void server_rd_rsp(u8 attOpcode, u16 attHandle, u8 pdu_type)
             break;
         
         case 0x0b: //FIRMWARE_INFO
-        {            
+        {
             //do NOT modify this code!!!
             att_server_rd( pdu_type, attOpcode, attHandle, GetFirmwareInfo(),strlen((const char*)GetFirmwareInfo()));
             break;
@@ -340,48 +341,48 @@ void ConnectStausUpdate(unsigned char IsConnectedFlag) //porting api
     {
         gConnectedFlag = IsConnectedFlag;
     }
+
 #ifdef I2CMASTER
     if (IsConnectedFlag)
         DispUpdate = 0xff;
     else{
         OLED_Init();
         OLED_DispLogo();
-    }   
+    }
+#else
+    if (IsConnectedFlag)
+    {
+        memset(RxCnt,0,FIFOLEN);
+    }
 #endif
 }
-
-static void CheckComPortInData(void) 
-{
-    u16 send = 0;
-    
-    if(RxCnt != PowR)//not empty
-    {
-        if(!GetConnectedStatus())
-        {
-            PowR = RxCnt; //empty the buffer if any
-        }
-        else //connected
-        {
-            if(RxCnt > PowR)
-            {
-                send = sconn_notifydata(rxBuf+PowR,RxCnt - PowR);
-                PowR += send;
-            }
-            else 
-            {
-                send = sconn_notifydata(rxBuf+PowR,MAX_SIZE - PowR);
-                PowR += send;
-                PowR %= MAX_SIZE;
-            }
-        }
-    }
-}
+unsigned char RevOverNo=0;
+unsigned char BleSendNo=0;
 
 void UsrProcCallback(void) //porting api
 {
+    u8 SendNum;
+    
     IWDG_ReloadCounter();
     
-    CheckComPortInData();
+    if (GetConnectedStatus())
+    {     
+        if (RevOverNo > BleSendNo)
+        {
+            SendNum = sconn_notifydata(rxBuf[BleSendNo],RxCnt[BleSendNo]);
+            if (SendNum == RxCnt[BleSendNo])
+            {
+                RxCnt[BleSendNo] = 0;
+                BleSendNo++;
+            }
+            
+            if (BleSendNo == RevOverNo)
+            {
+                BleSendNo = 0;
+                RevOverNo = 0;
+            }
+        }
+    }
 }
 
 void UsrProcCallback_Central(u8 fin, u8* dat_rcv, u8 dat_len)
@@ -396,10 +397,10 @@ void I2C1_IRQHandler(void)
     if ((I2C1->IC_INTR_STAT & 0x0004)==0x0004)
     {
         I2C_ClearITPendingBit(I2C1,I2C_IT_RX_FULL);
-        rxBuf[RxCnt++] = I2C1->IC_DATA_CMD;
-        if(RxCnt >= MAX_SIZE)
+        rxBuf[RevOverNo][RxCnt[RevOverNo]++] = I2C1->IC_DATA_CMD;
+        if(RxCnt[RevOverNo] > MAX_SIZE)
         {
-            RxCnt = 0;
+            RxCnt[RevOverNo] = 0;
         }
     }
     if((I2C1->IC_INTR_STAT & 0x0020)==0x0020)
@@ -421,6 +422,14 @@ void I2C1_IRQHandler(void)
             {
             }
         }
+    }
+    
+    if((I2C1->IC_INTR_STAT & 0x0200)==0x0200)
+    {
+        I2C_ClearITPendingBit(I2C1,I2C_IT_STOP_DET);
+        
+        if (RevOverNo < FIFOLEN)
+            RevOverNo++;
     }
 }
 #endif
