@@ -10,6 +10,9 @@ void BSP_Init(void);
 void SysClk8to48(void);
 void SysClk48to8(void);
 
+extern void mg_activate(unsigned char value);
+extern unsigned char mg_writeBuf(unsigned char reg, unsigned char const *pBuf, unsigned char len);
+
 unsigned int GetSysTickCount(void);
 void IrqMcuGotoSleepAndWakeup(void);
 

@@ -347,7 +347,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>0</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -363,7 +363,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>DEVICE_INFO_SUPPORT</Define>
+              <Define></Define>
               <Undefine></Undefine>
               <IncludePath>..\MM32x031\HAL_lib\inc;..\MM32x031\Include;..\BSP;..\Src\inc;..\MM32x031\CMSIS\KEIL_CORE;..\Src\IWDG</IncludePath>
             </VariousControls>

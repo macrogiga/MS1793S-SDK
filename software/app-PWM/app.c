@@ -174,7 +174,7 @@ void ser_write_rsp(u8 pdu_type/*reserved*/, u8 attOpcode/*reserved*/,
             break;
 
         case 0x18://OTA
-            OTA_Proc(attValue, valueLen_w); //rsp followed
+            //OTA_Proc(attValue, valueLen_w); //rsp followed
             ser_write_rsp_pkt(pdu_type);  /*if the related character has the property of WRITE(with response) or TYPE_CFG, one MUST invoke this func*/
             break;
 
