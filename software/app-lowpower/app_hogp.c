@@ -199,7 +199,7 @@ void ser_write_rsp(u8 pdu_type/*reserved*/, u8 attOpcode/*reserved*/,
     switch(att_hd)
     {        
         case 0x1f://cfg
-            CanNotifyFlag = 1;
+//            CanNotifyFlag = 1;
         case 0x26:
         case 0x31:
         case 0x37:
@@ -484,6 +484,7 @@ u8 NotifyKey(u8 KeyIdx)//hid standard keyboard key, hardcode
 //本回调函数可用于蓝牙模块端主动发送数据之用，协议栈会在系统允许的时候（异步）回调本函数，不得阻塞！！
 void gatt_user_send_notify_data_callback(void)
 {
+    static u8 NotifyFlag = 0;
     //to do if any ...
 #if 0    //auto send data notify operation ....
     static u8 count = 0;
@@ -501,8 +502,13 @@ void gatt_user_send_notify_data_callback(void)
     //key detect PA0
     if (GPIO_ReadInputData(GPIOA) & 0x01)//press
     {
-        NotifyKey(0x28);
-        NotifyApplePhoto();
+        if(0 == NotifyFlag){
+            NotifyFlag = 1;
+            NotifyKey(0x28);
+            NotifyApplePhoto();
+        }
+    }else{
+        NotifyFlag = 0;
     }
 #endif
 }
@@ -532,8 +538,8 @@ unsigned char aes_encrypt_HW(unsigned char *_data, unsigned char *_key)
 
 void ConnectStausUpdate(unsigned char IsConnectedFlag) //porting api
 {
-    if(!IsConnectedFlag)
-    CanNotifyFlag = IsConnectedFlag; //disconnected, so can NOT notify data
+//    if(!IsConnectedFlag)
+//        CanNotifyFlag = IsConnectedFlag; //disconnected, so can NOT notify data
 
     //[IsConnectedFlag] indicates the connection status
     gConnectedFlag = IsConnectedFlag;
@@ -559,4 +565,11 @@ void UsrProcCallback(void) //porting api
 void UsrProcCallback_Central(u8 fin, u8* dat_rcv, u8 dat_len)
 {
 }
+void gatt_client_send_callback(void)
+{
+}
+void att_cli_receive_callback(u16 att_hd, u8* attValue/*app data pointer*/, u8 valueLen_w/*app data size*/)
+{
+}
+
 #endif

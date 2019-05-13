@@ -75,9 +75,31 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>0</IsCurrentTarget>
+        <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
       <CpuCode>255</CpuCode>
+      <Books>
+        <Book>
+          <Number>0</Number>
+          <Title>MM32_MBL0xxPF_Board Schematics (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/MM32_MiniBoard_Schematic_Ver1_1.pdf</Path>
+        </Book>
+        <Book>
+          <Number>1</Number>
+          <Title>MM32_MBL0xxPF_Board Product Brief (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/PB_MM32_MiniBoard_Ver1_1.pdf</Path>
+        </Book>
+        <Book>
+          <Number>2</Number>
+          <Title>MM32_MBL0xxPF_Board Quick Start Guide (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/QS_MiniBoard_Quick_Start_Guide_Ver1_2.pdf</Path>
+        </Book>
+        <Book>
+          <Number>3</Number>
+          <Title>MM32_MBL0xxPF_Board UserManual (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/UM_MM32_MiniBoard_Ver1_1.pdf</Path>
+        </Book>
+      </Books>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -214,9 +236,31 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>1</IsCurrentTarget>
+        <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>255</CpuCode>
+      <Books>
+        <Book>
+          <Number>0</Number>
+          <Title>MM32_MBL0xxPF_Board Schematics (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/MM32_MiniBoard_Schematic_Ver1_1.pdf</Path>
+        </Book>
+        <Book>
+          <Number>1</Number>
+          <Title>MM32_MBL0xxPF_Board Product Brief (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/PB_MM32_MiniBoard_Ver1_1.pdf</Path>
+        </Book>
+        <Book>
+          <Number>2</Number>
+          <Title>MM32_MBL0xxPF_Board Quick Start Guide (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/QS_MiniBoard_Quick_Start_Guide_Ver1_2.pdf</Path>
+        </Book>
+        <Book>
+          <Number>3</Number>
+          <Title>MM32_MBL0xxPF_Board UserManual (MM32_MBL0xxPF_Board)</Title>
+          <Path>M:\Keil_v5\ARM\PACK\MindMotion\MM32L0xx_DFP\1.0.8\Documents/boards/UM_MM32_MiniBoard_Ver1_1.pdf</Path>
+        </Book>
+      </Books>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>

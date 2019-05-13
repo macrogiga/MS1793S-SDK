@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.1.3*/
+/*lib release: v4.1.6*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -134,9 +134,14 @@ void ble_set_adv_type(unsigned char type);
 //return: None
 void ble_set_interval(unsigned short interval);
 
+//Function: ble_set_wakeupdly
+//Parameters: counter - wake up delay time, unit 16uS
+//return: 1
+unsigned char ble_set_wakeupdly(unsigned short counter);
+
 //Function: ble_set_adv_enableFlag
 //this function is to enable/disable ble adv
-//Parameters: sEnableFlag - 0 to disable adv, 1 to enable adv
+//Parameters: sEnableFlag - 0 to disable adv, 1 to enable adv, 2 to enable adv in connect status
 //return: None
 void ble_set_adv_enableFlag(char sEnableFlag);
 
@@ -201,14 +206,6 @@ void SetLEDLum(int r, int g, int b, int L); //rgb[0~255], L[0~100,101] 101 means
 void UpdateLEDValueFading(unsigned char flag_fade); //1-fading, 0-now
 
 
-///////////////////////////OTA APIs/////////////////////////////////
-//return: 
-// OTA_OK             0
-// OTA_SN_ERROR       1
-// OTA_CHECKSUM_ERROR 2
-// OTA_FORMAT_ERROR   3
-// OTA_UNKNOWN_ERROR  255
-unsigned char OTA_Proc(unsigned char *data, unsigned short len);
 
 
 ///////////////////////////interrupt running mode APIs/////////////////////////////////
@@ -252,17 +249,20 @@ unsigned char ble_run_interrupt_McuCanSleep(void);
 //return: None. in testing, add while(1); after calling this function
 void test_carrier(unsigned char freq, unsigned char txpwr);
 
-//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz. Default txpwr=0dBm
+//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
 //return: None. in testing, add while(1); after calling this function
-void test_SRRCCarrier(unsigned char  freq);
+void test_SRRCCarrier(unsigned char  freq, unsigned char txpwr);
 
-//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz. Default txpwr=0dBm
+//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
 //return: None. in testing, add while(1); after calling this function
-void test_SRRCSpurious(unsigned char  freq);
+void test_SRRCSpurious(unsigned char  freq, unsigned char txpwr);
+
+//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
+//return: None. in testing, add while(1); after calling this function
+void test_PRBS9(unsigned char freq, unsigned char txpwr);
 
 void SetFixAdvChannel(unsigned char isFixCh37Flag);
 
-//unsigned char* GetMgBleStateInfo(int* StateInfoSize/*Output*/);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

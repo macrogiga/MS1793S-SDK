@@ -527,3 +527,9 @@ void UsrProcCallback(void) //porting api
 void UsrProcCallback_Central(u8 fin, u8* dat_rcv, u8 dat_len)
 {
 }
+void gatt_client_send_callback(void)
+{
+}
+void att_cli_receive_callback(u16 att_hd, u8* attValue/*app data pointer*/, u8 valueLen_w/*app data size*/)
+{
+}
