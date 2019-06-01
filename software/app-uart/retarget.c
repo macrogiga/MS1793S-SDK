@@ -109,7 +109,7 @@ static u16 comrxbuf_rd_pos = 0; //init, com rx buffer
 
 #ifdef USE_AT_CMD
 ///////////////FIFO proc for AT cmd///////////////
-#define MAX_AT_CMD_BUF_SIZE 52
+#define MAX_AT_CMD_BUF_SIZE 58
 u8 AtCmdBuf[MAX_AT_CMD_BUF_SIZE]={0}, AtCmdBufDataSize=0;
 
 extern void updateDeviceInfoData(u8* name, u8 len);

@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.1.6*/
+/*lib release: v4.1.8*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -54,6 +54,11 @@
 #define ATT_ERR_UNSUPPORTED_GRP_TYPE     0x10
 #define ATT_ERR_INSUFFICIENT_RESOURCES   0x11
 
+//adv header type
+#define ADV_HDR_TYPE_PUBLIC_IND         0x00
+#define ADV_HDR_TYPE_RANDOM_IND         0x80
+#define ADV_HDR_TYPE_PUBLIC_NONCONN_IND  0x02
+#define ADV_HDR_TYPE_RANDOM_NONCONN_IND  0x82
 
 ///////////////////////////lib provided APIs//////////////////////////////////////
 
@@ -125,7 +130,8 @@ void ble_set_adv_rsp_data(unsigned char* rsp, unsigned char len);
 void ble_set_name(unsigned char* name,unsigned char len);
 
 //Function: ble_set_adv_type
-//Parameters: type - advertisement type, 0-adv_ind, 2-adv_nonconn_ind. default 0
+//Parameters: type - advertisement type, 0-adv_ind, 2-adv_nonconn_ind. default 0x80
+//                   addr type,      0x80 - RANDOM, 0x00 - PUBLIC
 //return: None
 void ble_set_adv_type(unsigned char type);
 
@@ -252,10 +258,6 @@ void test_carrier(unsigned char freq, unsigned char txpwr);
 //Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
 //return: None. in testing, add while(1); after calling this function
 void test_SRRCCarrier(unsigned char  freq, unsigned char txpwr);
-
-//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
-//return: None. in testing, add while(1); after calling this function
-void test_SRRCSpurious(unsigned char  freq, unsigned char txpwr);
 
 //Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
 //return: None. in testing, add while(1); after calling this function
