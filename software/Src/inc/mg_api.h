@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.1.8*/
+/*lib release: v4.2.1*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -147,7 +147,9 @@ unsigned char ble_set_wakeupdly(unsigned short counter);
 
 //Function: ble_set_adv_enableFlag
 //this function is to enable/disable ble adv
-//Parameters: sEnableFlag - 0 to disable adv, 1 to enable adv, 2 to enable adv in connect status
+//Parameters: sEnableFlag - 0 to disable adv, 
+//                          1 to enable peripheral adv, or to enable central scan
+//                          2 to enable peripheral adv in connect status, or to enable central connect
 //return: None
 void ble_set_adv_enableFlag(char sEnableFlag);
 
@@ -250,19 +252,8 @@ void ble_nMsRoutine(void);
 unsigned char ble_run_interrupt_McuCanSleep(void);
 
 
-///////////////////////////test/debug APIs/////////////////////////////////
-//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
-//return: None. in testing, add while(1); after calling this function
-void test_carrier(unsigned char freq, unsigned char txpwr);
-
-//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
-//return: None. in testing, add while(1); after calling this function
-void test_SRRCCarrier(unsigned char  freq, unsigned char txpwr);
-
-//Parameters: freq - input, 0~80, center frequency(2400+freq)MHz, txpwr - input, 0x20~0x4A, txpower
-//return: None. in testing, add while(1); after calling this function
-void test_PRBS9(unsigned char freq, unsigned char txpwr);
-
+///////////////////////////debug APIs/////////////////////////////////
+//Parameters: isFixCh37Flag - input, 1-adv on ch37 only, 0-adv on ch37,38,39. default:0
 void SetFixAdvChannel(unsigned char isFixCh37Flag);
 
 
@@ -275,11 +266,42 @@ void SetFixAdvChannel(unsigned char isFixCh37Flag);
 //void SysClk48to8(void);
 //void SysClk8to48(void);
 //char IsIrqEnabled(void);
-//void SPI_CS_Enable_(void);
-//void SPI_CS_Disable_(void);
-//unsigned char SPI_WriteRead(unsigned char SendData,unsigned char WriteFlag);
-//unsigned char SPI_WriteBuf(unsigned char reg, unsigned char const *pBuf, unsigned char len);//start from lib version 2.2.0
-//unsigned char SPI_ReadBuf(unsigned char reg, unsigned char *pBuf, unsigned char len);//start from lib version 2.2.0
+//unsigned char SPI_WriteBuf(unsigned char reg, unsigned char const *pBuf, unsigned char len)//start from lib version 4.2.0
+/*{
+    unsigned char result = 0;
+    unsigned char i;
+    
+    SPI_CS_Enable_();
+    
+    SPI_Write(reg);
+    
+    for (i=0;i<len;i++)
+    {
+        SPI_Write(*pBuf++);
+    }
+    
+    SPI_CS_Disable_();
+    
+    return result;
+}*/
+//unsigned char SPI_ReadBuf(unsigned char reg, unsigned char *pBuf, unsigned char len)//start from lib version 4.2.0
+/*{
+    unsigned char result = 0;
+    unsigned char i;
+    
+    SPI_CS_Enable_();
+    
+    result = SPI_Write(reg);
+    
+    for (i=0;i<len;i++)
+    {
+        *(pBuf+i) = SPI_Read(0xff);
+    }
+    
+    SPI_CS_Disable_();
+    
+    return result;
+}*/
     
 //void gatt_user_send_notify_data_callback(void);
 //void ser_prepare_write(unsigned short handle, unsigned char* attValue, unsigned short attValueLen, unsigned short att_offset);

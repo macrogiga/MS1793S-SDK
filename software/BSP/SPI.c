@@ -188,6 +188,44 @@ void SPI_CS_Disable_(void)
     GPIO_SetBits(GPIOB, GPIO_Pin_15);
 }
 
+unsigned char SPI_WriteBuf(unsigned char reg, unsigned char const *pBuf, unsigned char len)
+{
+    unsigned char result = 0;
+    unsigned char i;
+    
+    SPI_CS_Enable_();
+    
+    SPI_WriteRead(reg, 1);
+    
+    for (i=0;i<len;i++)
+    {
+        SPI_WriteRead(*pBuf++, 1);
+    }
+    
+    SPI_CS_Disable_();
+    
+    return result;
+}
+
+unsigned char SPI_ReadBuf(unsigned char reg, unsigned char *pBuf, unsigned char len)
+{
+    unsigned char result = 0;
+    unsigned char i;
+    
+    SPI_CS_Enable_();
+    
+    result = SPI_WriteRead(reg, 1);
+    
+    for (i=0;i<len;i++)
+    {
+        *(pBuf+i) = SPI_WriteRead(0xff, 0);
+    }
+    
+    SPI_CS_Disable_();
+    
+    return result;
+}
+
 char IsIrqEnabled(void) 
 {
     return (!(GPIO_ReadInputData(GPIOA) & 0x1000)); //GPA12
