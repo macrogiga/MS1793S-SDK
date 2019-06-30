@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.2.1*/
+/*lib release: v4.2.2*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -148,8 +148,8 @@ unsigned char ble_set_wakeupdly(unsigned short counter);
 //Function: ble_set_adv_enableFlag
 //this function is to enable/disable ble adv
 //Parameters: sEnableFlag - 0 to disable adv, 
-//                          1 to enable peripheral adv, or to enable central scan
-//                          2 to enable peripheral adv in connect status, or to enable central connect
+//                          1 to enable peripheral adv, or to enable central scan/connect
+//                          2 to enable adv in connected status(peripheral/central)
 //return: None
 void ble_set_adv_enableFlag(char sEnableFlag);
 
@@ -195,6 +195,25 @@ unsigned short sconn_GetConnInterval(void);//get current used interval in the un
 //Get current (or the latest) connected master device's MAC
 //returns mac(6 Bytes, Little-Endian format) and the type(MacType, 0 means public type, others mean random type)
 unsigned char* GetMasterDeviceMac(unsigned char* MacType);
+
+
+//Function: mconn_SetConnInterval
+//this function is for central to set interval parameter for connect_req in the unit of 1.25ms, range 6~3200, default: 40
+//Parameters: conn_interval - connection interval. range: 6~3200 (7.5ms ~ 4s)
+//return: 0 - fail, 1 - success
+unsigned char mconn_SetConnInterval(unsigned short conn_interval);
+
+//Function: mconn_SetConnTimeout
+//this function is for central to set connection timeout parameter for connect_req in the unit of 10ms, range 10~3200, default: 200
+//Parameters: conn_timeout - connection timeout. range: 10~3200 (100ms ~ 32s)
+//return: 0 - fail, 1 - success
+unsigned char mconn_SetConnTimeout(unsigned short conn_timeout);
+    
+//Function: ble_master_setTargetDeviceAddr
+//this function is for central to set the target device to be connected
+//Parameters: addr - ble MAC, 6 byte in LSB order
+//return: none
+void ble_master_setTargetDeviceAddr(unsigned char* addr);
 
 ///////////////////////////PAIR APIs/////////////////////////////////
 void SetLePinCode(unsigned char *PinCode/*6 0~9 digitals*/);
@@ -318,7 +337,10 @@ void SetFixAdvChannel(unsigned char isFixCh37Flag);
 //void ConnectStausUpdate(unsigned char IsConnectedFlag);
 //unsigned char* getDeviceInfoData(unsigned char* len);
 //void UsrProcCallback(void);
+
 //void UsrProcCallback_Central(unsigned char fin, unsigned char* dat_rcv, unsigned char dat_len);
+//void gatt_client_send_callback(void);
+//void att_cli_receive_callback(u16 att_hd, u8* attValue/*app data pointer*/, u8 valueLen/*app data size*/);
 
 //unsigned char aes_encrypt_HW(unsigned char *painText128bitBE,unsigned char *key128bitBE); //porting api, returns zero means not supported
 
