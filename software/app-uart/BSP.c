@@ -6,6 +6,8 @@
 
 
 extern volatile unsigned int SysTick_Count;
+extern void UartInit(UART_TypeDef* UARTx, u32 baudRate);
+extern u32 BaudRate;
 extern unsigned int RxTimeout;
 extern unsigned int TxTimeout;
 
@@ -103,7 +105,7 @@ void BSP_Init(void)
     NVIC_SetPriority (EXTI4_15_IRQn, (1<<__NVIC_PRIO_BITS) - 1);
     
 #ifdef USE_UART
-    UartInit(UART1, 115200);
+    UartInit(UART1, BaudRate);
     NVIC_SetPriority (UART1_IRQn, (1<<__NVIC_PRIO_BITS) - 2);
     
 #ifndef SWDDEBUG
@@ -128,28 +130,6 @@ void BSP_Init(void)
 
 
 /////////////////////Following functions are porting functions/////////////////////////////////
-void McuGotoSleepAndWakeup(void) // auto goto sleep AND wakeup, porting api
-{
-#ifdef USE_UART
-    if ((SleepStop)&&
-        (TxTimeout < SysTick_Count)&&
-        (RxTimeout < SysTick_Count))
-    {
-        if(SleepStop == 1){//sleep
-            SCB->SCR &= 0xfb;
-            __WFE();
-        }else{ //stop
-            SCB->SCR |= 0x4;
-            __WFI();
-            
-            RCC->CFGR |= (uint32_t)RCC_CFGR_SW_PLL;
-#ifndef SWDDEBUG
-            GPIO_ResetBits(GPIOA, GPIO_Pin_13);
-#endif
-        }
-    }
-#endif
-}
 void IrqMcuGotoSleepAndWakeup(void) // auto goto sleep AND wakeup, porting api
 {
     if(ble_run_interrupt_McuCanSleep() == 0) return;
@@ -176,23 +156,21 @@ void IrqMcuGotoSleepAndWakeup(void) // auto goto sleep AND wakeup, porting api
 }
 
 //////DO NOT REMOVE, used in ble lib///////
+void McuGotoSleepAndWakeup(void)
+{
+}
 void SysClk8to48(void)
 {
 }
 void SysClk48to8(void)
 {
 }
-
 void DisableEnvINT(void)
 {
 }
-
 void EnableEnvINT(void)
 {
 }
-
-//api provide in blelib
-//    EnableLED_Flag; Led_R; Led_G; Led_B; Led_Y; Led_W; Led_Lum_percent; 
-void UpdateLEDValueAll(void) //porting function
+void UpdateLEDValueAll(void)
 {
 }
