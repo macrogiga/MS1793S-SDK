@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.2.2*/
+/*lib release: v4.2.4*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -72,6 +72,11 @@ void radio_initBle(unsigned char txpwr, unsigned char** addr/*out*/);  //init bl
 //return: 0 - fail;  none 0 - success
 unsigned char radio_initBle_TO(unsigned char txpwr, unsigned char** addr, unsigned short ms_timeout);
 
+//Function: radio_initBle_recover
+//Parameters: txpwr - input, txpower;   addr - output, BLE device address
+//return: None
+void radio_initBle_recover(unsigned char txpwr, unsigned char** addr);
+
 //Function: radio_setCal_nonBlocking
 //Parameters: nonblocking - 0: blocking;  1: non blocking
 //return: none
@@ -81,6 +86,7 @@ void radio_setCal_nonBlocking(unsigned nonblocking);
 //this function is to set rf to standby mode, I ~ 3uA
 //Parameters: none
 //return: None
+//called in UsrProcCallback or when ble_run_interrupt_McuCanSleep()>0
 void radio_standby(void);
 
 //Function: radio_resume
@@ -215,6 +221,12 @@ unsigned char mconn_SetConnTimeout(unsigned short conn_timeout);
 //return: none
 void ble_master_setTargetDeviceAddr(unsigned char* addr);
 
+//Function: cli_write_req
+//this function is for central to write data
+//Parameters: hd - connection handle; data - data to be sent; len - data length
+//return: length of data write successfully
+int cli_write_req(unsigned short hd, unsigned char* data, unsigned char len);
+
 ///////////////////////////PAIR APIs/////////////////////////////////
 void SetLePinCode(unsigned char *PinCode/*6 0~9 digitals*/);
 
@@ -225,6 +237,12 @@ void SetLePinCode(unsigned char *PinCode/*6 0~9 digitals*/);
 //  1. This function shall be invoked when [StartEncryption == 1].
 //  2. This function is ONLY supported in pairing cases.
 unsigned char* GetLTKInfo(unsigned char* newFlag);
+
+//security manager module request for pair
+//Remarks:
+//  1. This function shall be invoked when [connected status == 1].
+//  2. This function is ONLY supported in pairing cases.
+void s_llSmSecurityReq(void);
 
 
 ///////////////////////////LED application APIs/////////////////////////////////
