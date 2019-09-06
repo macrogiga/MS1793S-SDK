@@ -104,26 +104,26 @@ typedef struct
 #define EXTI_Line13      ((uint32_t)0x02000)  /* External interrupt line 13 */
 #define EXTI_Line14      ((uint32_t)0x04000)  /* External interrupt line 14 */
 #define EXTI_Line15      ((uint32_t)0x08000)  /* External interrupt line 15 */
-#define EXTI_Line16      ((uint32_t)0x10000)  /* External interrupt line 16
-Connected to the PVD Output */
-#define EXTI_Line17      ((uint32_t)0x20000)  /* External interrupt line 17 
-Connected to the RTC Alarm event */
+#define EXTI_Line16      ((uint32_t)0x10000)  /* External interrupt line 16 Connected to the PVD Output */
+//#define EXTI_Line17      ((uint32_t)0x20000)  /* External interrupt line 17 Connected to the RTC Alarm event */
 #define EXTI_Line18      ((uint32_t)0x040000)  /* External interrupt line 18 */
-#define EXTI_Line19      ((uint32_t)0x080000)  /* External interrupt line 19 */
-#define EXTI_Line20      ((uint32_t)0x100000)  /* External interrupt line 20  */
+//#define EXTI_Line19      ((uint32_t)0x080000)  /* External interrupt line 19 */
+//#define EXTI_Line20      ((uint32_t)0x100000)  /* External interrupt line 20  */
+
+#define EXTI_Line24 ((uint32_t)0x1000000) /* External interrupt line 24 Connected to the IWDG Output */
 
 #define IS_EXTI_LINE(LINE) ((((LINE) & (uint32_t)0xFFF80000) == 0x00) && ((LINE) != (uint16_t)0x00))
 
-#define IS_GET_EXTI_LINE(LINE) (((LINE) == EXTI_Line0) || ((LINE) == EXTI_Line1) || \
-((LINE) == EXTI_Line2) || ((LINE) == EXTI_Line3) || \
-    ((LINE) == EXTI_Line4) || ((LINE) == EXTI_Line5) || \
-        ((LINE) == EXTI_Line6) || ((LINE) == EXTI_Line7) || \
-            ((LINE) == EXTI_Line8) || ((LINE) == EXTI_Line9) || \
-                ((LINE) == EXTI_Line10) || ((LINE) == EXTI_Line11) || \
-                    ((LINE) == EXTI_Line12) || ((LINE) == EXTI_Line13) || \
-                        ((LINE) == EXTI_Line14) || ((LINE) == EXTI_Line15) || \
-                            ((LINE) == EXTI_Line16) || ((LINE) == EXTI_Line17) || \
-                                ((LINE) == EXTI_Line18))
+#define IS_GET_EXTI_LINE(LINE) (((LINE) == EXTI_Line0) || ((LINE) == EXTI_Line1) ||   \
+                                ((LINE) == EXTI_Line2) || ((LINE) == EXTI_Line3) ||   \
+                                ((LINE) == EXTI_Line4) || ((LINE) == EXTI_Line5) ||   \
+                                ((LINE) == EXTI_Line6) || ((LINE) == EXTI_Line7) ||   \
+                                ((LINE) == EXTI_Line8) || ((LINE) == EXTI_Line9) ||   \
+                                ((LINE) == EXTI_Line10) || ((LINE) == EXTI_Line11) || \
+                                ((LINE) == EXTI_Line12) || ((LINE) == EXTI_Line13) || \
+                                ((LINE) == EXTI_Line14) || ((LINE) == EXTI_Line15) || \
+                                ((LINE) == EXTI_Line16) || ((LINE) == EXTI_Line18) || \
+                                ((LINE) == EXTI_Line24))
 
 /**
 * @}

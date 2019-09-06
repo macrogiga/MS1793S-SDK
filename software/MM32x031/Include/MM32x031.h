@@ -631,6 +631,7 @@ typedef struct
   __IO uint32_t PR;
   __IO uint32_t RLR;
   __IO uint32_t SR;
+  __IO uint32_t CTRL;
 } IWDG_TypeDef;
 
 /** 
