@@ -325,7 +325,7 @@ void ConnectStausUpdate(unsigned char IsConnectedFlag) //porting api
     //  1 - peripheral connected
     //  2 - central connected
     
-    LED_ONOFF(!IsConnectedFlag);
+//    LED_ONOFF(!IsConnectedFlag);
 
     if (IsConnectedFlag != gConnectedFlag)
     {

@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
     DEALINGS IN THE SOFTWARE.
 */
-/*lib release: v4.2.5*/
+/*lib release: v4.2.6*/
 
 #ifndef _MG_API_H_
 #define _MG_API_H_
@@ -154,15 +154,16 @@ unsigned char ble_set_wakeupdly(unsigned short counter);
 //Function: ble_set_adv_enableFlag
 //this function is to enable/disable ble adv
 //Parameters: sEnableFlag - 0 to disable adv, 
-//                          1 to enable peripheral adv, or to enable central scan/connect
+//                          1 to enable peripheral adv, or to enable central scan/connect (default)
 //                          2 to enable adv in connected status(peripheral/central)
+//                          3 adv only, no accept connetion(peripheral), or scan only(central)
 //return: None
 void ble_set_adv_enableFlag(char sEnableFlag);
 
 //Function: ble_set_role
 //this function is to set ble role to peripheral(0) or central(1), by default ble role is peripheral(0)
 //Parameters: role_new - 0 peripheral, 1 central
-//            scan_window - scan window for central rol. range: 0x0004~0x4000 (2.5ms ~ 10.24s)
+//            scan_window - scan window for central role. range: 4~104 (2.5ms ~ 65ms)
 //return: 0 - fail, 1 - success
 unsigned char ble_set_role(unsigned char role_new, unsigned short scan_window);
 

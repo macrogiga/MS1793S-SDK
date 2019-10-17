@@ -469,20 +469,20 @@ void CheckComPortInData(void) //at cmd NOT supported
     }
 }
 
-u32 SCount = 0;
+static u32 SCount = 0;
 void UsrProcCallback(void) //porting api
 {
     IWDG_ReloadCounter();
     
     SCount++;
     
-    LED_ONOFF(SCount%2);
+//    LED_ONOFF(SCount%2);
 
 #ifdef CENTRAL
     if (0 == GetConnectedStatus())
     {
         if (SCount > 30)
-            ble_set_role(1, 13100); //central, scan_win
+            ble_set_role(1, 104); //central, scan_win
     }
 #else
 
@@ -533,7 +533,10 @@ extern u8 MDisconnect;
 void UsrProcCallback_Central(u8 fin, u8* dat_rcv, u8 dat_len)
 {
     u8 i = 0;
+
+    LED_ONOFF((SCount++)%2);
     
+    IWDG_ReloadCounter();
 //    if (dat_len==(8+sizeof(AdvDat_Uart)))
 //    {
 //        if (memcpy(dat_rcv+8,AdvDat_Uart,sizeof(AdvDat_Uart)))

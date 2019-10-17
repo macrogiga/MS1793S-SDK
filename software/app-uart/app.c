@@ -290,12 +290,12 @@ int GetPrimaryServiceHandle(unsigned short hd_start, unsigned short hd_end,
                             unsigned short* hd_start_r,unsigned short* hd_end_r)
 {
 // example    
-//    if((uuid16 == 0x1812) && (hd_start <= 0x19))// MUST keep match with the information save in function  att_server_rdByGrType(...)
-//    {
-//        *hd_start_r = 0x19;
-//        *hd_end_r = 0x2a;
-//        return 1;
-//    }
+    if((uuid16 == 0xca9e) && (hd_start <= 0x10))// MUST keep match with the information save in function  att_server_rdByGrType(...)
+    {
+        *hd_start_r = 0x10;
+        *hd_end_r = 0x19;
+        return 1;
+    }
     
     return 0;
 }
