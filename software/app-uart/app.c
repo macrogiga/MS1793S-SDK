@@ -106,14 +106,17 @@ typedef struct ble_UUID128{
 //
 const BLE_CHAR AttCharList[] = {
 // ======  gatt =====  Do NOT Change!!
+    {GATT_PRIMARY_SERVICE_UUID,0x0001},
     {TYPE_CHAR,0x0003, {ATT_CHAR_PROP_RD, 0x04,0, 0x00,0x2a}, UUID16_FORMAT},//name
     //05-06 reserved
 // ======  device info =====    Do NOT Change if using the default!!!  
+    {GATT_PRIMARY_SERVICE_UUID,0x0007},
     {TYPE_CHAR,0x0008, {ATT_CHAR_PROP_RD, 0x09,0, 0x29,0x2a}, UUID16_FORMAT},//manufacture
     {TYPE_CHAR,0x000a, {ATT_CHAR_PROP_RD, 0x0b,0, 0x26,0x2a}, UUID16_FORMAT},//firmware version
     {TYPE_CHAR,0x000e, {ATT_CHAR_PROP_RD, 0x0f,0, 0x28,0x2a}, UUID16_FORMAT},//sw version
     
-// ======  User service or other services added here =====  User defined  
+// ======  User service or other services added here =====  User defined
+    {GATT_PRIMARY_SERVICE_UUID,0x0010},
     {TYPE_CHAR,0x0011, {ATT_CHAR_PROP_NTF,                     0x12,0, 0,0}, 1/*uuid128-idx1*/ },//RxNotify
     {TYPE_CFG, 0x0013, {ATT_CHAR_PROP_RD|ATT_CHAR_PROP_W}},//cfg    
     {TYPE_CHAR,0x0014, {ATT_CHAR_PROP_W|ATT_CHAR_PROP_W_NORSP, 0x15,0, 0,0}, 2/*uuid128-idx2*/ },//Tx    

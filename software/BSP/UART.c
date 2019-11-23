@@ -63,7 +63,7 @@ void UartInit(UART_TypeDef* UARTx, u32 baudRate)
 
         //UART1_TX  
         GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
         GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
         GPIO_Init(GPIOB, &GPIO_InitStructure);
 
